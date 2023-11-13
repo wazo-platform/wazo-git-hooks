@@ -32,14 +32,15 @@ def find_files_to_check():
     output = subprocess.check_output(cmd).strip().decode('utf-8')
     if not output:
         return []
-    return [l.strip() for l in output.split("\n") if not os.path.islink(l.strip())]
+    return [
+        line.strip() for line in output.split("\n") if not os.path.islink(line.strip())
+    ]
 
 
 def find_copyright(filepath):
-    year = datetime.now().year
     with open(filepath) as f:
         for line in f:
-            match = re.search(fr"(.*)copyright.*?(\d+).*", line, re.IGNORECASE)
+            match = re.search(r"(.*)copyright.*?(\d+).*", line, re.IGNORECASE)
             if match:
                 return match
     return None

@@ -41,7 +41,9 @@ def list_files_to_commit():
     output = subprocess.check_output(cmd).strip().decode('utf-8')
     if not output:
         return []
-    return [l.strip() for l in output.split("\n") if not os.path.islink(l.strip())]
+    return [
+        line.strip() for line in output.split("\n") if not os.path.islink(line.strip())
+    ]
 
 
 if __name__ == "__main__":

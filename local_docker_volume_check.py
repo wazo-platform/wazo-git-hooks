@@ -21,11 +21,19 @@ def list_files_changed_with_local_git_repos():
     Those lines should stay commented when committed
     """
 
-    cmd = ['git', 'diff', '--staged', '--name-only', '-G^\s+-\s+"?\$\{LOCAL_GIT_REPOS\}']
+    cmd = [
+        'git',
+        'diff',
+        '--staged',
+        '--name-only',
+        r'-G^\s+-\s+"?\$\{LOCAL_GIT_REPOS\}',
+    ]
     output = subprocess.check_output(cmd).strip().decode('utf-8')
     if not output:
         return []
-    return [l.strip() for l in output.split("\n") if not os.path.islink(l.strip())]
+    return [
+        line.strip() for line in output.split("\n") if not os.path.islink(line.strip())
+    ]
 
 
 if __name__ == "__main__":
