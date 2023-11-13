@@ -1,0 +1,27 @@
+# This file is a pre-commit manifest for the git hooks provided by this repository,
+# for use through the pre-commit tool/framework for git hooks management.
+# This enables a pre-commit configuration in another git repository(or which may be private to a user's checkout)
+# to simply reference these git hooks in order for them to be provided and configured by the pre-commit tool.
+# See https://pre-commit.com/
+- id: wazo-copyright-check
+  name: check copyright notices
+  description: check wazo copyright notices in source file headers of updated file
+  language: script
+  entry: copyright_check.py
+  pass_filenames: false
+  stages: [commit, push, manual]
+  exclude_types: [binary]
+- id: wazo-changelog-check
+  name: update debian changelog
+  description: check that debian/changelog file has been updated along with commit
+  language: script
+  entry: changelog_check.py
+  pass_filenames: false
+  stages: [commit, push, manual]
+- id: wazo-local-docker-volume-check
+  name: check local docker volume
+  description: check usage of LOCAL_GIT_REPOS in files to commit
+  language: script
+  entry: local_docker_volume_check.py
+  pass_filenames: false
+  stages: [commit, push, manual]
