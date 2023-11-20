@@ -4,10 +4,10 @@
 
 ### With pre-commit
 
-These hooks in this repo can be run via [pre-commit](https://pre-commit.com/) 
+These hooks in this repo can be run via [pre-commit](https://pre-commit.com/)
 This definition can be found in the `.pre-commit-hooks.yml` manifest file.
 
-To use them simply create a `.pre-commit-config.yaml` in your repository with the desired hooks. 
+To use them simply create a `.pre-commit-config.yaml` in your repository with the desired hooks.
 
 Here is an example:
 ```yaml
@@ -20,7 +20,7 @@ repos:
   - id: wazo-local-docker-volume-check
 ```
 
-Then you can call run it with pre-commit, either manually with `pre-commit run --all-files` 
+Then you can call run it with pre-commit, either manually with `pre-commit run --all-files`
 (or automatically on commit after running `pre-commit install`)
 
 ### Manual installation
@@ -46,8 +46,8 @@ A git hook to avoid committing without updating the debian/changelog.
 
 ### Local Docker Volume check
 
-A git hook that checks to see if you have accidentally committed 
-uncommented lines with local mounts of LOCAL_GIT_REPOS in your docker-compose.yaml files. 
+A git hook that checks to see if you have accidentally committed
+uncommented lines with local mounts of LOCAL_GIT_REPOS in your docker-compose.yaml files.
 
 ## Development
 
@@ -64,5 +64,5 @@ tox -e linters
 ### Versioning
 
 If you make changes to the hooks. Please create a new tag, following semantic versioning, in the main branch.
-Then you can update the tag used in your project's `.pre-commit-config.yaml` file. 
+Then you can update the tag used in your project's `.pre-commit-config.yaml` file.
 Either manually or via `pre-commit autoupdate`.
