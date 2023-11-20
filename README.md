@@ -12,8 +12,8 @@ To use them simply create a `.pre-commit-config.yaml` in your repository with th
 Here is an example:
 ```yaml
 repos:
-- repo: https://github.com/wazo-platform/wazo-tools.git
-  rev: v1.0.0
+- repo: https://github.com/wazo-platform/wazo-git-hooks.git
+  rev: 1.0.0
   hooks:
   - id: wazo-copyright-check
   - id: wazo-changelog-check
