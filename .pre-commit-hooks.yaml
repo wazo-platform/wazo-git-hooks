@@ -8,7 +8,7 @@
   description: check wazo copyright notices in source file headers of updated file
   language: script
   entry: copyright_check.py
-  pass_filenames: false
+  pass_filenames: true
   stages: [commit, push, manual]
   exclude_types: [binary]
 - id: wazo-changelog-check
@@ -16,7 +16,7 @@
   description: check that debian/changelog file has been updated along with commit
   language: docker
   entry: /changelog_check.py
-  pass_filenames: false
+  pass_filenames: true
   stages: [commit, push, manual]
 - id: wazo-local-docker-volume-check
   name: check local docker volume

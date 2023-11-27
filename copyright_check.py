@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
 # Copyright 2016-2023 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
-import os
 import re
-import subprocess
 import sys
 
 from datetime import datetime
 
+from wazo_hook_utils import get_files_to_check
+
 COPYRIGHT_TPL = "{}Copyright {}-{} The Wazo Authors  (see the AUTHORS file)"
+COPYRIGHT_REGEX = re.compile(
+    r"(?P<prefix>.*)copyright.*?(?P<first_year>\d+).*", re.IGNORECASE
+)
 
 
-def main():
+def main() -> None:
     abort = False
-    for filepath in find_files_to_check():
-        copyright = find_copyright(filepath)
-        if copyright is None:
-            print(f"WARNING: {filepath} has no copyright")
-        elif copyright and not copyright_ok(copyright):
-            fix_copyright(filepath, copyright)
+    for file_path in get_files_to_check():
+        copyright_text = find_copyright(file_path)
+        if copyright_text is None:
+            print(f"WARNING: {file_path} has no copyright")
+        elif copyright_text and not copyright_ok(copyright_text):
+            fix_copyright(file_path, copyright_text)
             abort = True
 
     if abort:
@@ -27,39 +31,27 @@ def main():
         sys.exit(1)
 
 
-def find_files_to_check():
-    cmd = ['git', 'diff', '--cached', '--name-only', '--diff-filter=MA']
-    output = subprocess.check_output(cmd).strip().decode('utf-8')
-    if not output:
-        return []
-    return [
-        line.strip() for line in output.split("\n") if not os.path.islink(line.strip())
-    ]
-
-
-def find_copyright(filepath):
-    with open(filepath) as f:
+def find_copyright(file_path: str) -> re.Match[str] | None:
+    with open(file_path) as f:
         for line in f:
-            match = re.search(r"(.*)copyright.*?(\d+).*", line, re.IGNORECASE)
-            if match:
+            if match := COPYRIGHT_REGEX.search(line):
                 return match
     return None
 
 
-def copyright_ok(match):
+def copyright_ok(match: re.Match[str]) -> bool:
     current_year = str(datetime.now().year)
     return current_year in match.group(0)
 
 
-def fix_copyright(filepath, match):
-    prefix = match.group(1)
-    first_year = match.group(2)
+def fix_copyright(filepath: str, match: re.Match[str]) -> None:
+    prefix, first_year = match.groups()
     current_year = datetime.now().year
     new_copyright = COPYRIGHT_TPL.format(prefix, first_year, current_year)
     change_copyright(filepath, match.group(0), new_copyright)
 
 
-def change_copyright(filepath, old, new):
+def change_copyright(filepath: str, old: str, new: str) -> None:
     print(f'{filepath}: "{old}" -> "{new}"')
     with open(filepath) as f:
         text = f.read()

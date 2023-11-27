@@ -8,4 +8,5 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
+COPY wazo_hook_utils.py /wazo_hook_utils.py
 COPY changelog_check.py /changelog_check.py
