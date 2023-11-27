@@ -14,8 +14,8 @@
 - id: wazo-changelog-check
   name: update debian changelog
   description: check that debian/changelog file has been updated along with commit
-  language: script
-  entry: changelog_check.py
+  language: docker
+  entry: /changelog_check.py
   pass_filenames: false
   stages: [commit, push, manual]
 - id: wazo-local-docker-volume-check
