@@ -7,15 +7,13 @@ import subprocess
 import sys
 
 
-def main():
-    files = list_files_changed_with_local_git_repos()
-
-    if files:
+def main() -> None:
+    if list_files_changed_with_local_git_repos():
         print("ERROR: Modification with LOCAL_GIT_REPOS detected. Refusing to commit.")
         sys.exit(1)
 
 
-def list_files_changed_with_local_git_repos():
+def list_files_changed_with_local_git_repos() -> list[str]:
     """
     We do not want commits containing uncommented lines using LOCAL_GIT_REPOS.
     Those lines should stay commented when committed
@@ -28,7 +26,7 @@ def list_files_changed_with_local_git_repos():
         '--name-only',
         r'-G^\s+-\s+"?\$\{LOCAL_GIT_REPOS\}',
     ]
-    output = subprocess.check_output(cmd).strip().decode('utf-8')
+    output = subprocess.check_output(cmd, text=True).strip()
     if not output:
         return []
     return [
