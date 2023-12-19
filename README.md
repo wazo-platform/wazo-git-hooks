@@ -13,7 +13,7 @@ Here is an example:
 ```yaml
 repos:
 - repo: https://github.com/wazo-platform/wazo-git-hooks.git
-  rev: 1.1.0
+  rev: 1.1.1
   hooks:
   - id: wazo-copyright-check
   - id: wazo-changelog-check
