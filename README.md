@@ -13,7 +13,7 @@ Here is an example:
 ```yaml
 repos:
 - repo: https://github.com/wazo-platform/wazo-git-hooks.git
-  rev: 1.0.0
+  rev: 1.1.0
   hooks:
   - id: wazo-copyright-check
   - id: wazo-changelog-check
@@ -25,7 +25,7 @@ Then you can call run it with pre-commit, either manually with `pre-commit run -
 
 ### Manual installation
 
-To use this hook create a link in your .git/hook directory named pre-commit
+To use this hook create a symlink in your `.git/hook` directory named `pre-commit`
 
 To install in all your git repos:
 
@@ -42,18 +42,18 @@ A git hook to check and fix copyright dates in code files.
 
 ### Changelog check
 
-A git hook to avoid committing without updating the debian/changelog.
+A git hook to avoid committing without updating the `debian/changelog` file.
 
 ### Local Docker Volume check
 
 A git hook that checks to see if you have accidentally committed
-uncommented lines with local mounts of LOCAL_GIT_REPOS in your docker-compose.yaml files.
+uncommented lines with local mounts of `LOCAL_GIT_REPOS` in your `docker-compose.yaml` files.
 
 ## Development
 
 ### Linting
 
-You can also run pre-commit on the code in this repo either directly or via tox.
+You can also run pre-commit on the code in this repo either directly or via `tox`.
 
 ```
 pre-commit run --all-files
