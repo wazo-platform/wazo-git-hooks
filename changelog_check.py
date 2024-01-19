@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2017-2023 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2017-2024 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
@@ -27,7 +27,8 @@ def should_run() -> bool:
     command_exists = result.returncode != 127
     if not command_exists:
         result.check_returncode()
-    changelog_exists = result.returncode != 255
+    # 255 = file not found ; 25 = not a tty or ioctl error, when run from docker
+    changelog_exists = result.returncode != 255 and result.returncode != 25
     if not changelog_exists:
         return False
     changelog_version = result.stdout.strip()
