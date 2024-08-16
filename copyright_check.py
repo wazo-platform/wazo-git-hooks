@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2016-2023 The Wazo Authors  (see the AUTHORS file)
+# Copyright 2016-2024 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
@@ -14,6 +14,11 @@ COPYRIGHT_TPL = "{}Copyright {}-{} The Wazo Authors  (see the AUTHORS file)"
 COPYRIGHT_REGEX = re.compile(
     r"(?P<prefix>.*)copyright.*?(?P<first_year>\d+).*", re.IGNORECASE
 )
+EXCLUDE_FILES = [
+    "LICENSE",
+    "debian/copyright",
+    "attribution.md",  # Used by wazo-platform.org
+]
 
 
 def main() -> None:
@@ -24,6 +29,9 @@ def main() -> None:
         files_to_check = [f for f in specified_files if f in files_to_check]
 
     for file_path in files_to_check:
+        if any(exclude_file in file_path for exclude_file in EXCLUDE_FILES):
+            continue
+
         copyright_text = find_copyright(file_path)
         if copyright_text is None:
             print(f"WARNING: {file_path} has no copyright")
