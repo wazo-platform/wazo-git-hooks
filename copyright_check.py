@@ -27,11 +27,9 @@ def main() -> None:
     files_to_check = list_files_to_commit()
     if specified_files := sys.argv[1:]:
         files_to_check = [f for f in specified_files if f in files_to_check]
+    files_to_check = [f for f in files_to_check if not is_excluded(f)]
 
     for file_path in files_to_check:
-        if any(exclude_file in file_path for exclude_file in EXCLUDE_FILES):
-            continue
-
         copyright_text = find_copyright(file_path)
         if copyright_text is None:
             print(f"WARNING: {file_path} has no copyright")
@@ -42,6 +40,10 @@ def main() -> None:
     if abort:
         print("Files have been changed. Please add and commit again.")
         sys.exit(1)
+
+
+def is_excluded(file_path: str) -> bool:
+    return any(exclude_file in file_path for exclude_file in EXCLUDE_FILES)
 
 
 def find_copyright(file_path: str) -> re.Match[str] | None:
