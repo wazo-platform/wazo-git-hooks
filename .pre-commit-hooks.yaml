@@ -17,6 +17,7 @@
   language: docker
   entry: /changelog_check.py
   pass_filenames: true
+  require_serial: true
   stages: [commit, push, manual]
 - id: wazo-local-docker-volume-check
   name: check local docker volume
