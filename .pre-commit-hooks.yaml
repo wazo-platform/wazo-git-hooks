@@ -9,7 +9,7 @@
   language: script
   entry: copyright_check.py
   pass_filenames: true
-  stages: [commit, push, manual]
+  stages: [pre-commit, pre-push, manual]
   exclude_types: [binary]
 - id: wazo-changelog-check
   name: update debian changelog
@@ -18,11 +18,11 @@
   entry: /changelog_check.py
   pass_filenames: true
   require_serial: true
-  stages: [commit, push, manual]
+  stages: [pre-commit, pre-push, manual]
 - id: wazo-local-docker-volume-check
   name: check local docker volume
   description: check usage of LOCAL_GIT_REPOS in files to commit
   language: script
   entry: local_docker_volume_check.py
   pass_filenames: false
-  stages: [commit, push, manual]
+  stages: [pre-commit, pre-push, manual]
